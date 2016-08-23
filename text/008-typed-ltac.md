@@ -285,3 +285,6 @@ The Ltac2 term manipulation facilities should be generic enough to write
 a type-inferencer in it. Similarly, it should be possible to implement the
 guardedness condition checker in Ltac2. Maybe the best way of achieving this is
 to expose a syntax tree?
+
+It would be nice to get an object representing the current state of the goal,
+manipulate it any way, and then `transparent_assert` the modified goal.
