@@ -238,3 +238,50 @@ unify such a scope creation process with the tactic notation one?
 
 TODO
 
+# Wishlist
+
+It should be possible to have a mapping data structure.
+
+Here are some tactics that are painful or impossible to write in `Ltac`, that
+`Ltac2` should be able to fix.
+
+It should be possible to construct terms with holes without triggering implicit
+argument resolution, and refine the goal without triggering implicit argument
+resolution.
+
+Destructing a n-tuple, in an evar to make it extra fun. The ability to construct
+match statements in a recursive manner would help with this.
+
+	Ltac instantiate_1_let'_tuple_max_5 x :=
+	  instantiate (1:=let '(x0,x1,x2,x3,x4,x5)                                 := x in _ ) ||
+	  instantiate (1:=let '(x0,x1,x2,x3,x4)                                    := x in _ ) ||
+	  instantiate (1:=let '(x0,x1,x2,x3)                                       := x in _ ) ||
+	  instantiate (1:=let '(x0,x1,x2)                                          := x in _ ) ||
+	  instantiate (1:=let '(x0,x1)                                             := x in _ ) ||
+	  fail "only 5-tuples are supported".
+
+It would be nice to have a general facility for operating on multiple goals in
+one Ltac2 script.
+
+It would be nice to be able to write tactics that generate default definitions
+for inductives based on their structure, similarly to Haskell's `deriving (Show,
+Ord, Eq)`. It should be possible to implement all the code generation for
+`t_rect`, `t_ind` and `t_rec` in Ltac2, along with `t_eqb` and `Proper_f` for
+functions that are proper by parametricity.
+
+It should be possible to write an Ltac2 called `lint` that takes in a term,
+examines its structure, and pretty-prints the same definition with annotations
+akin to the following. All this should work even if the term has evars, holes,
+or type errors.
+
+	fun x y =>
+	let a := x + 1 in
+	let b = y - 1 in
+	let c = b          <-- lint: copy-propagation possible
+	let d = b          <-- lint: unused variable
+	in (a / c)         <-- lint: nia could not prove that the denominator is nonzero
+
+The Ltac2 term manipulation facilities should be generic enough to write
+a type-inferencer in it. Similarly, it should be possible to implement the
+guardedness condition checker in Ltac2. Maybe the best way of achieving this is
+to expose a syntax tree?
