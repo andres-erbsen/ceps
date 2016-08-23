@@ -240,10 +240,10 @@ TODO
 
 # Wishlist
 
-It should be possible to have a mapping data structure.
-
 Here are some tactics that are painful or impossible to write in `Ltac`, that
 `Ltac2` should be able to fix.
+
+It should be possible to have a mapping data structure.
 
 It should be possible to construct terms with holes without triggering implicit
 argument resolution, and refine the goal without triggering implicit argument
